@@ -16,9 +16,28 @@ mongoose.connect(process.env.MONGO_URI)
         console.log("MongoDB Connection Error:", error);
     });
 
-// Simple route
+// Menu Schema
+const menuSchema = new mongoose.Schema({
+    name: String,
+    category: String,
+    price: Number
+});
+
+const Menu = mongoose.model("Menu", menuSchema);
+
+// Home route
 app.get("/", (req, res) => {
     res.send("Cafe Bliss Backend is Running!");
+});
+
+// Get menu
+app.get("/api/menu", async (req, res) => {
+    try {
+        const menu = await Menu.find();
+        res.json(menu);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 // Render provides the PORT
