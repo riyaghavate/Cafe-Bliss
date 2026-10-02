@@ -7,8 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/CafeBliss")
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("MongoDB Connected Successfully");
     })
@@ -21,8 +21,9 @@ app.get("/", (req, res) => {
     res.send("Cafe Bliss Backend is Running!");
 });
 
-const PORT = 5000;
+// Render provides the PORT
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
